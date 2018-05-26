@@ -15,7 +15,7 @@ function handleEnter() {
 
     //adds class names to trigger different events on the class tags
     this.classList.add('trigger-enter')
-    setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 75)
+    setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 150)
     background.classList.add('open')
 
     //this gets the dropdown coordinates to move the background onto the actual information

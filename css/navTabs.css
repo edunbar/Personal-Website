@@ -1,9 +1,7 @@
-
-
-
   nav {
     position: relative;
     perspective: 600px;
+
   }
 
   .cool > li > a {
@@ -51,8 +49,6 @@
   .trigger-enter-active .dropdown {
     opacity: 1;
   }
-
-
 
   .dropdownBackground {
     width:100px;
