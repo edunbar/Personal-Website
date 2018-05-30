@@ -79,6 +79,7 @@
     opacity: 1;
   }
   .cool.color-darken .tabs > .tab {
+    transition-duration: .25s;
     color: white;
   }
 

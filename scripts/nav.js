@@ -1,6 +1,6 @@
 /*
     nav.js creates a smooth transition when mousing over one tab to the next. It uses two even listeners
-    and a background that follows the information. 
+    and a background that follows the information. Also does the change of color for the hovering effects
     Attaches to index.html and home.css
 */
 
