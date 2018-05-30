@@ -1,29 +1,46 @@
   nav {
     position: relative;
     perspective: 600px;
+    grid-area: photo;
+  }
 
+  .cool > ul > a {
+    color: gray;
+    text-decoration: none;
+    font-size: 15px;
+    padding:10px 10px;
+    display: inline-block;
+    margin:10px;
+    border-radius:5px;
   }
 
   .cool > li > a {
-    color: yellow;
+    color: gray;
     text-decoration: none;
-    font-size: 20px;
-    background: rgba(0,0,0,0.2);
-    padding:10px 20px;
+    font-size: 15px;
+    padding:10px 10px;
     display: inline-block;
-    margin:20px;
+    margin:10px;
     border-radius:5px;
   }
 
   nav ul {
     list-style: none;
-    margin: 0;
+    margin-right: 20px;
     padding: 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    
   }
 
   .cool > li {
+    position: relative;
+    display:flex;
+    justify-content: center;
+    margin-right: 20px;
+  }
+
+  .cool > ul {
     position: relative;
     display:flex;
     justify-content: center;
@@ -57,7 +74,7 @@
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 50px 100px rgba(50,50,93,.1), 0 15px 35px rgba(50,50,93,.15), 0 5px 15px rgba(0,0,0,.1);
-    transition: opacity 0.1s, transform 0.25s, height 0.25s, width 0.25s;
+    transition: opacity 0.1s, transform 0.25s;
     transform-origin: 50% 0;
     display: flex;
     justify-content: center;
