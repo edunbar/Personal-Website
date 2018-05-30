@@ -9,14 +9,14 @@
   }
 
   .cool > li:hover a {
-    color: grey;
+    color: grey !important;
   }
   .cool > ul:hover a {
-    color: grey;
-  }
+    color: grey !important;
+  } 
 
   .cool > ul > a {
-    color: gray;
+    color: grey;
     text-decoration: none;
     font-size: 15px;
     padding:10px 10px;
@@ -26,7 +26,7 @@
   }
 
   .cool > li > a {
-    color: gray;
+    color: grey;
     text-decoration: none;
     font-size: 15px;
     padding:10px 10px;
@@ -77,6 +77,9 @@
 
   .trigger-enter-active .dropdown {
     opacity: 1;
+  }
+  .cool.color-darken .tabs > .tab {
+    color: white;
   }
 
   .dropdownBackground {

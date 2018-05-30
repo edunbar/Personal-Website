@@ -47,18 +47,20 @@ function handleLeave() {
     background.classList.remove('open')
 }
 
+//if the user mouses into the area change all of the tabs darker excpet the one it hovers over
 function addNavColor() {
-    
-
+    this.classList.add('color-darken')
 }
 
+//removes all of the color from the nav bar
 function removeNavColor() {
-    
+    this.classList.remove('color-darken')
 }
 
 //event listeners for the two functions that are being used
 triggers.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter))
 triggers.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave))
 
+//adds event listeners for changing the color of the tabs for hover effects
 navTabs.addEventListener('mouseenter', addNavColor)
 navTabs.addEventListener('mouseleave', removeNavColor)
