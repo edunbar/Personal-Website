@@ -9,6 +9,7 @@
 const triggers = document.querySelectorAll('.cool > li')
 const background = document.querySelector('.dropdownBackground')
 const nav = document.querySelector('.top')
+const navTabs = document.querySelector('.cool')
 
 //handles the event that happens when the mouse starts to hover over the different nav selectors
 function handleEnter() {
@@ -46,6 +47,18 @@ function handleLeave() {
     background.classList.remove('open')
 }
 
+function addNavColor() {
+    
+
+}
+
+function removeNavColor() {
+    
+}
+
 //event listeners for the two functions that are being used
 triggers.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter))
 triggers.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave))
+
+navTabs.addEventListener('mouseenter', addNavColor)
+navTabs.addEventListener('mouseleave', removeNavColor)
