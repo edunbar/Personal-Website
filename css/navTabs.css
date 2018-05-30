@@ -4,6 +4,17 @@
     grid-area: photo;
   }
 
+  .cool {
+    margin-left: 700px;
+  }
+
+  .cool > li:hover a {
+    color: grey;
+  }
+  .cool > ul:hover a {
+    color: grey;
+  }
+
   .cool > ul > a {
     color: gray;
     text-decoration: none;
@@ -44,6 +55,7 @@
     position: relative;
     display:flex;
     justify-content: center;
+    margin-right: 20px;
   }
 
   .dropdown {
