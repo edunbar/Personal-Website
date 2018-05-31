@@ -78,7 +78,7 @@
   .trigger-enter-active .dropdown {
     opacity: 1;
   }
-  .cool.color-darken .tabs > .tab {
+  .cool.color-darken .tabs > a {
     transition-duration: .25s;
     color: white;
   }
