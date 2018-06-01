@@ -18,6 +18,10 @@ body {
     grid-template-rows: 100px repeat(4, 700px);
 }
 
+.secondary {
+    background: white;
+}
+
 .main-page {
     grid-area: photo;
 }
