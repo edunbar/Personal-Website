@@ -1,4 +1,7 @@
-.secondary {
+
+
+
+/* .secondary {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +26,7 @@
 	height: 450px;
 	border: 1px solid rgba(0,0,0,0.1);
 	border-radius: 50%;
-}
+} */
 
 /* .node:hover {
     position:relative;
@@ -50,7 +53,7 @@
 	border-radius: 50%;
 } */
 
-@keyframes rotate {
+/* @keyframes rotate {
 	from {
 		transform: rotate(0deg)
 		           translate(-250px)
@@ -69,5 +72,5 @@
 	position: absolute;
 	font-size: 100px;
 	animation: rotate 10s infinite linear;
-}
+} */
 
