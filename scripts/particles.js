@@ -1,76 +1,103 @@
 // /*
-//     particles.js creates the project portion of the website. 
+//     particles.js creates the project portion of the website. This involves the creation of different nodes connected
+//
 // */
 
-function getBall(xVal, yVal, dxVal, dyVal, rVal, colorVal) {
-    var ball = {
-      x: xVal,
-      lastX: xVal,
-      y: yVal,
-      lastY: yVal,
-      dx: dxVal,
-      dy: dyVal,
-      r: rVal,
-      color: colorVal,
-      normX: 0,
-      normY: 0
+//creates each node, the position of the start and where it should be next
+function getNode(xVal, yVal, dxVal, dyVal, rVal, colorVal) {
+    var node = {
+        x: xVal,
+        lastX: xVal,
+        y: yVal,
+        lastY: yVal,
+        dx: dxVal,
+        dy: dyVal,
+        r: rVal,
+        color: colorVal,
+        normX: 0,
+        normY: 0
     };
-  
-    return ball;
+
+    return node;
 }
   
+//creates the canvas variable and creates the context for the animations
 var canvas = document.getElementById("myCanvas");
-  
-  var ctx = canvas.getContext("2d");
-  
-  var containerR = 325;
-  var containerInner = containerR / 1.5;
-  
-  canvas.width = containerR * 2;
-  canvas.height = containerR * 2;
+var ctx = canvas.getContext("2d"); 
 
-  canvas.style["border-radius"] = containerR + "px";
-  
-  var balls = [
-    getBall(containerR, containerR * 2 - 30, 2, -2, 20, "#0095DD"),
-    getBall(containerR, containerR * 2 - 50, 3, -3, 30, "#DD9500"),
-    getBall(containerR, containerR * 2 - 60, -3, 4, 10, "#00DD95"),
-    getBall(containerR, containerR * 2 / 5, -1.5, 3, 40, "#DD0095")
-  ];
-  
-  function draw() {
+//creates the two containers, the inner circular container and the outer circular container
+var containerOuter = 325;
+var containerInner = containerOuter / 1.5;
+
+//creates the height and the width of the canvas, along with the circular border
+canvas.width = containerOuter * 2;
+canvas.height = containerOuter * 2;
+//creates the circular border with the size of the outer container, making a in px
+canvas.style["border-radius"] = containerOuter + "px";
+
+//creates the nodes that are seen moving within the cirle
+var nodes = [
+    getNode(containerOuter, containerOuter * 2 - 30, 2, -2, 20, "#0095DD"),
+    getNode(containerOuter, containerOuter * 2 - 50, 3, -3, 30, "#DD9500"),
+    getNode(containerOuter, containerOuter * 2 - 60, -3, 4, 10, "#00DD95"),
+    getNode(containerOuter, containerOuter * 2 / 5, -1.5, 3, 40, "#DD0095")
+];
+
+//function that actually creates the drawing on the canvas
+function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-    for (var i = 0; i < balls.length; i++) {
-      var curBall = balls[i];
-      ctx.beginPath();
-      ctx.arc(curBall.x, curBall.y, curBall.r, 0, Math.PI * 2);
-      ctx.fillStyle = curBall.color;
-      ctx.fill();
-      ctx.closePath();
-      curBall.lastX = curBall.x;
-      curBall.lastY = curBall.y;
-      curBall.x += curBall.dx;
-      curBall.y += curBall.dy;
-      var dx = curBall.x - containerR;
-      var dy = curBall.y - containerR;
-      var distanceFromCenter = Math.sqrt(dx * dx + dy * dy);
-  
-      if (distanceFromCenter >= containerR - curBall.r || distanceFromCenter <= containerInner - curBall.r) {
-        var normalMagnitude = distanceFromCenter;
-        var normalX = dx / normalMagnitude;
-        var normalY = dy / normalMagnitude;
-        var tangentX = -normalY;
-        var tangentY = normalX;
-        var normalSpeed = -(normalX * curBall.dx + normalY * curBall.dy);
-        var tangentSpeed = tangentX * curBall.dx + tangentY * curBall.dy;
-        curBall.dx = normalSpeed * normalX + tangentSpeed * tangentX;
-        curBall.dy = normalSpeed * normalY + tangentSpeed * tangentY;
-      }
 
+    //cycles through each of the nodes that were created so each one follows the same rules
+    for (var i = 0; i < nodes.length; i++) {
+
+        //finds the current node that we want to select
+        var currNode = nodes[i]; 
+
+        //creates the node, the size and starting position taken from the initialization of the node
+        ctx.beginPath();
+        ctx.arc(currNode.x, currNode.y, currNode.r, 0, Math.PI * 2);
+
+        //colors the node
+        ctx.fillStyle = currNode.color;
+        ctx.fill();
+        ctx.closePath();
+
+        //stores the current position of the nod into the previous postion of the node
+        currNode.lastX = currNode.x;
+        currNode.lastY = currNode.y;
+
+        //adds the direction the node is going to the current position of the node to get movement
+        currNode.x += currNode.dx;
+        currNode.y += currNode.dy;
+
+        //creates variables for the direction of the coordinates along with the distance from the center of the container
+        var dx = currNode.x - containerOuter;
+        var dy = currNode.y - containerOuter;
+        var distanceFromCenter = Math.sqrt(dx * dx + dy * dy);
+
+        //if the distance from the outer container is greater than the position of the current node OR
+        //if the distance from the inner container is less than the position of the current node THEN
+        //we have to bounce the node, it hit its boundries so it needs to bounce as if it hit the edge of a circle
+        if (distanceFromCenter >= containerOuter - currNode.r || distanceFromCenter <= containerInner - currNode.r) {
+
+            //creates the variables that will be used to find the new direction the node needs to be going
+            var normalMagnitude = distanceFromCenter;
+            var normalX = dx / normalMagnitude;
+            var normalY = dy / normalMagnitude;
+            var tangentX = -normalY;
+            var tangentY = normalX;
+            var normalSpeed = -(normalX * currNode.dx + normalY * currNode.dy);
+            var tangentSpeed = tangentX * currNode.dx + tangentY * currNode.dy;
+            
+            //based on the previous math, this assigns the new directions the nodes need to be traveling after impact
+            currNode.dx = normalSpeed * normalX + tangentSpeed * tangentX;
+            currNode.dy = normalSpeed * normalY + tangentSpeed * tangentY;
+        }
     }
+    //creates the animations
     requestAnimationFrame(draw);
-  }
-  
-  draw();
+}
+
+//calls the function that runs the node particles
+draw();
   
