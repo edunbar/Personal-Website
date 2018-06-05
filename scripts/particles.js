@@ -37,10 +37,10 @@ canvas.style["border-radius"] = containerOuter + "px";
 
 //creates the nodes that are seen moving within the cirle
 var nodes = [
-    getNode(containerOuter, containerOuter * 2 - 30, 2, -2, 20, "#0095DD"),
-    getNode(containerOuter, containerOuter * 2 - 50, 3, -3, 30, "#DD9500"),
-    getNode(containerOuter, containerOuter * 2 - 60, -3, 4, 10, "#00DD95"),
-    getNode(containerOuter, containerOuter * 2 / 5, -1.5, 3, 40, "#DD0095")
+    getNode(containerOuter + 40, containerOuter * 2 - 30, -.6, -.4, 20, "#0095DD"),
+    getNode(containerOuter * 1.5, containerOuter * 2 - 100, -.9, -.6, 30, "#DD9500"),
+    getNode(containerOuter + 100, containerOuter * 2 - 600, .75, .9, 15, "#00DD95"),
+    getNode(containerOuter, containerOuter * 2 / 5, .8, .9, 40, "#DD0095")
 ];
 
 //function that actually creates the drawing on the canvas
@@ -50,8 +50,16 @@ function draw() {
     //cycles through each of the nodes that were created so each one follows the same rules
     for (var i = 0; i < nodes.length; i++) {
 
-        //finds the current node that we want to select
-        var currNode = nodes[i]; 
+        //finds the current and previous node that we want to select
+        var currNode = nodes[i];
+        if (i > 0) {
+            var prevNode = nodes[i - 1];
+
+            ctx.moveTo(currNode.x, currNode.y);
+            //need to adjust lineTo to make it only hit the edges of the nodes
+            ctx.lineTo(prevNode.x, prevNode.y - prevNode.r);
+            ctx.stroke();
+        }
 
         //creates the node, the size and starting position taken from the initialization of the node
         ctx.beginPath();
