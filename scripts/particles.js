@@ -15,7 +15,8 @@ function getNode(xVal, yVal, dxVal, dyVal, rVal, colorVal) {
         r: rVal,
         color: colorVal,
         normX: 0,
-        normY: 0
+        normY: 0,
+        clicked: false
     };
 
     return node;
@@ -58,6 +59,7 @@ function draw() {
             ctx.moveTo(currNode.x, currNode.y);
             //need to adjust lineTo to make it only hit the edges of the nodes
             ctx.lineTo(prevNode.x, prevNode.y - prevNode.r);
+            ctx.strokeStyle = "grey";
             ctx.stroke();
         }
 
