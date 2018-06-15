@@ -22,9 +22,12 @@ function getNode(xVal, yVal, dxVal, dyVal, rVal, colorVal) {
 
     return node;
 }
+
+var colToNode = {};
   
 //creates the canvas variable and creates the context for the animations
 var canvas = document.getElementById("myCanvas");
+var hiddenCanvas = document.getElementById("myHiddenCanvas");
 var ctx = canvas.getContext("2d"); 
 
 //creates the two containers, the inner circular container and the outer circular container
@@ -34,8 +37,14 @@ var containerInner = containerOuter / 1.5;
 //creates the height and the width of the canvas, along with the circular border
 canvas.width = containerOuter * 2;
 canvas.height = containerOuter * 2;
+
+hiddenCanvas.width = containerOuter * 2;
+hiddenCanvas.height = containerOuter * 2;
+hiddenCanvas.style.display = 'none'; //hide the second one.
+
 //creates the circular border with the size of the outer container, making a in px
 canvas.style["border-radius"] = containerOuter + "px";
+
 
 //creates the nodes that are seen moving within the cirle
 var nodes = [
@@ -45,13 +54,48 @@ var nodes = [
     getNode(containerOuter, containerOuter * 2 / 5, .8, .9, 40, "#DD0095")
 ];
 
+var nextCol = 1;
+function genColor(){
+    var ret = [];
+    if(nextCol < 16777215){
+        ret.push(nextCol & 0xff); // R
+        ret.push((nextCol & 0xff00) >> 8); // G 
+        ret.push((nextCol & 0xff0000) >> 16); // B
+
+        nextCol += 100; // This is exagerated for this example and would ordinarily be 1.
+    }
+    var col = "rgb(" + ret.join(',') + ")";
+    return col;
+}
+
 //function that actually creates the drawing on the canvas
-function draw() {
+function draw(hidden) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     //cycles through each of the nodes that were created so each one follows the same rules
     for (var i = 0; i < nodes.length; i++) {
+        
+        var node = nodes[i];
+
+        if(node.renderCol) {
+            // Render clicked nodes in the color of their corresponding node
+            // on the hidden canvas.
+            ctx.fillStyle = node.renderCol;
+          } else {
+            ctx.fillStyle = 'RGBA(105, 105, 105, 0.8)';
+          }
+    
+          if(hidden) {
+            if(node.__pickColor === undefined) {
+              // If we have never drawn the node to the hidden canvas get a new
+              // color for it and put it in the dictionary.
+              node.__pickColor = genColor();
+              colToNode[node.__pickColor] = node;
+            }
+            // On the hidden canvas each rectangle gets a unique color.
+            ctx.fillStyle = node.__pickColor;
+          }
 
         //finds the current and previous node that we want to select
         var currNode = nodes[i];
@@ -112,15 +156,30 @@ function draw() {
 
 function hoverEffect(e) {
 
-    console.log(e);
+    draw(hiddenCanvas, true);
+    var mouseX = e.layerX;
+    var mouseY = e.layerY;
 
+    // Get the corresponding pixel color on the hidden canvas
+    // and look up the node in our map.
+    var ctx = hiddenCanvas.getContext("2d");
+    var col = ctx.getImageData(mouseX, mouseY, 1, 1).data;
+    var colString = "rgb(" + col[0] + "," + col[1] + ","+ col[2] + ")";
+
+    var node = colToNode[colString];
+    if(node) {
+      node.renderCol = node.__pickColor;
+      controls.lastClickedIndex = node.index;
+      lastClicked.updateDisplay();
+      animateHidden.updateDisplay();
+      console.log("Clicked on node with index:", node.index, node);  
+    }
 }
 
-
 //adds an even listener for mouse movements
-canvas.addEventListener('mousemove', hoverEffect);
+canvas.addEventListener('click', hoverEffect);
 
 
 //calls the function that runs the node particles
-draw();
+draw(hiddenCanvas, false);
   
