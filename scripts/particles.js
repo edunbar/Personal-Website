@@ -5,185 +5,200 @@
 
 
 
-window.addEventListener('load', function(){
-
-    // change this section
-    var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    height = height / 5;
-
-    var mainCanvas = document.createElement("canvas");
-    var hiddenCanvas = document.createElement("canvas");
-
-    var data = [];
-
-    // A dictionary to lookup nodes by color used in the hidden canvas.
-    // Note: if you use this code somewhere else, remember that you may need
-    // to clean up references to objects stored here if the objects are otherwised
-    // removed/deleted from your vis.
-    var colToNode = {};
-
-    mainCanvas.setAttribute('width',  width);
-    mainCanvas.setAttribute('height', height);
-    mainCanvas.style.background = "white";
-    hiddenCanvas.setAttribute('width', width);
-    hiddenCanvas.setAttribute('height', height);
-    hiddenCanvas.style.display = 'none';
-
-    var container = document.getElementById("secondary");
-    container.appendChild(mainCanvas);
-    container.appendChild(hiddenCanvas); // Include this to see the hidden canvas.
 
 
-    var controls = {
-        count:100,
-        showHiddenCanvas: false,
-        animateHiddenCanvas: false,
-    };
 
 
-    /*
-    Generate the data.
-   */
-    function makeData(count) {
-        data = [];
-        for(var i = 0; i < count; i++) {
-            var w = 10 + Math.random() * 20;
-            var obj = {
-                x: Math.random() * (width - 20),
-                y: Math.random() * (height - 20),
-                xVel: (Math.random() * 0.5) * (Math.random() < 0.5 ? -1 : 1),
-                yVel: (Math.random() * 0.5) * (Math.random() < 0.5 ? -1 : 1),
-                width: w,
-                height: w,
-                index: i
-            };
-        data.push(obj);
-        }
-        return data;
-    }
-
-    /*
-    Updates the nodes on each frame to make them bounce around the screen.
-   */
-    function update(data) {
-        var numElements = data.length;
-        for(var i = 0; i < numElements; i++) {
-            var node = data[i];
-            node.x += node.xVel;
-            node.y += node.yVel;
-
-            if(node.x > width || node.x < 0) {
-                node.xVel *= -1;
-            }
-            if(node.y > height || node.y < 0) {
-                node.yVel *= -1;
-            }
-        }
-    }
-
-    function shuffle(data) {
-        var numElements = data.length;
-        for(var i = 0; i < numElements; i++) {
-            node.x = Math.random * width;
-            node.y = Math.random * width;
-        }
-    }
 
 
-    /*
-    Generates the next color in the sequence, going from 0,0,0 to 255,255,255.
-   */
-    var nextCol = 1;
-    function genColor(){
-        var ret = [];
-        // via http://stackoverflow.com/a/15804183
-        if(nextCol < 16777215){
-            ret.push(nextCol & 0xff); // R
-            ret.push((nextCol & 0xff00) >> 8); // G 
-            ret.push((nextCol & 0xff0000) >> 16); // B
 
-            nextCol += 100; // This is exagerated for this example and would ordinarily be 1.
-        }
-        var col = "rgb(" + ret.join(',') + ")";
-        return col;
-    }
 
-    function draw(data, canvas, hidden) {
-        var ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, width, height);
+// window.addEventListener('load', function(){
+
+//     // change this section
+//     var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+//     var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+//     height = height / 5;
+
+//     var mainCanvas = document.createElement("canvas");
+//     var hiddenCanvas = document.createElement("canvas");
+
+//     var data = [];
+
+//     // A dictionary to lookup nodes by color used in the hidden canvas.
+//     // Note: if you use this code somewhere else, remember that you may need
+//     // to clean up references to objects stored here if the objects are otherwised
+//     // removed/deleted from your vis.
+//     var colToNode = {};
+
+//     mainCanvas.setAttribute('width',  width);
+//     mainCanvas.setAttribute('height', height);
+//     mainCanvas.style.background = "white";
+//     hiddenCanvas.setAttribute('width', width);
+//     hiddenCanvas.setAttribute('height', height);
+//     hiddenCanvas.style.display = 'none';
+
+//     var container = document.getElementById("secondary");
+//     container.appendChild(mainCanvas);
+//     container.appendChild(hiddenCanvas); // Include this to see the hidden canvas.
+
+
+//     var controls = {
+//         count:100,
+//         showHiddenCanvas: false,
+//         animateHiddenCanvas: false,
+//     };
+
+
+//     /*
+//     Generate the data.
+//    */
+//     function makeData(count) {
+//         data = [];
+//         for(var i = 0; i < count; i++) {
+//             var w = 10 + Math.random() * 20;
+//             var obj = {
+//                 x: Math.random() * (width - 20),
+//                 y: Math.random() * (height - 20),
+//                 xVel: (Math.random() * 0.5) * (Math.random() < 0.5 ? -1 : 1),
+//                 yVel: (Math.random() * 0.5) * (Math.random() < 0.5 ? -1 : 1),
+//                 width: w,
+//                 height: w,
+//                 index: i
+//             };
+//         data.push(obj);
+//         }
+//         return data;
+//     }
+
+//     /*
+//     Updates the nodes on each frame to make them bounce around the screen.
+//    */
+//     function update(data) {
+//         var numElements = data.length;
+//         for(var i = 0; i < numElements; i++) {
+//             var node = data[i];
+//             node.x += node.xVel;
+//             node.y += node.yVel;
+
+//             if(node.x > width || node.x < 0) {
+//                 node.xVel *= -1;
+//             }
+//             if(node.y > height || node.y < 0) {
+//                 node.yVel *= -1;
+//             }
+//         }
+//     }
+
+//     function shuffle(data) {
+//         var numElements = data.length;
+//         for(var i = 0; i < numElements; i++) {
+//             node.x = Math.random * width;
+//             node.y = Math.random * width;
+//         }
+//     }
+
+
+//     /*
+//     Generates the next color in the sequence, going from 0,0,0 to 255,255,255.
+//    */
+//     var nextCol = 1;
+//     function genColor(){
+//         var ret = [];
+//         // via http://stackoverflow.com/a/15804183
+//         if(nextCol < 16777215){
+//             ret.push(nextCol & 0xff); // R
+//             ret.push((nextCol & 0xff00) >> 8); // G 
+//             ret.push((nextCol & 0xff0000) >> 16); // B
+
+//             nextCol += 100; // This is exagerated for this example and would ordinarily be 1.
+//         }
+//         var col = "rgb(" + ret.join(',') + ")";
+//         return col;
+//     }
+
+//     function draw(data, canvas, hidden) {
+//         var ctx = canvas.getContext('2d');
+//         ctx.clearRect(0, 0, width, height);
     
-        var numElements = data.length;
-        for(var i = 0; i < numElements; i++) {
-            var node = data[i];
+//         var numElements = data.length;
+//         for(var i = 0; i < numElements; i++) {
+//             var node = data[i];
     
-            if(node.renderCol) {
-                // Render clicked nodes in the color of their corresponding node
-                // on the hidden canvas.
-                ctx.fillStyle = node.renderCol;
-            } else {
-                ctx.fillStyle = 'RGBA(105, 105, 105, 0.8)';
-            }
+//             if(node.renderCol) {
+//                 // Render clicked nodes in the color of their corresponding node
+//                 // on the hidden canvas.
+//                 ctx.fillStyle = node.renderCol;
+//             } else {
+//                 ctx.fillStyle = 'RGBA(105, 105, 105, 0.8)';
+//             }
     
-            if(hidden) {
-                if(node.__pickColor === undefined) {
-                    // If we have never drawn the node to the hidden canvas get a new
-                    // color for it and put it in the dictionary.
-                    node.__pickColor = genColor();
-                    colToNode[node.__pickColor] = node;
-                }
-                // On the hidden canvas each rectangle gets a unique color.
-                ctx.fillStyle = node.__pickColor;
-            }
+//             if(hidden) {
+//                 if(node.__pickColor === undefined) {
+//                     // If we have never drawn the node to the hidden canvas get a new
+//                     // color for it and put it in the dictionary.
+//                     node.__pickColor = genColor();
+//                     colToNode[node.__pickColor] = node;
+//                 }
+//                 // On the hidden canvas each rectangle gets a unique color.
+//                 ctx.fillStyle = node.__pickColor;
+//             }
     
-          drawMark(ctx, node);
-        }
-    }
+//           drawMark(ctx, node);
+//         }
+//     }
 
 
-    function drawMark(ctx, node) {
-        // Draw the actual rectangle
-        // ctx.fillRect(node.x, node.y, node.width, node.height);
-        ctx.fillRect(node.x, node.y, node.width, node.height);
-    }
+//     function drawMark(ctx, node) {
+//         // Draw the actual rectangle
+//         // ctx.fillRect(node.x, node.y, node.width, node.height);
+//         ctx.fillRect(node.x, node.y, node.width, node.height);
+//     }
 
 
-    // Listen for clicks on the main canvas
-    mainCanvas.addEventListener("click", function(e){
-        draw(data, hiddenCanvas, true);
-        var mouseX = e.layerX;
-        var mouseY = e.layerY;
+//     // Listen for clicks on the main canvas
+//     mainCanvas.addEventListener("click", function(e){
+//         console.log("entered");
+//         draw(data, hiddenCanvas, true);
+//         var mouseX = e.layerX;
+//         var mouseY = e.layerY;
 
-        // Get the corresponding pixel color on the hidden canvas
-        // and look up the node in our map.
-        var ctx = hiddenCanvas.getContext("2d");
-        var col = ctx.getImageData(mouseX, mouseY, 1, 1).data;
-        var colString = "rgb(" + col[0] + "," + col[1] + ","+ col[2] + ")";
+//         // Get the corresponding pixel color on the hidden canvas
+//         // and look up the node in our map.
+//         var ctx = hiddenCanvas.getContext("2d");
+//         var col = ctx.getImageData(mouseX, mouseY, 1, 1).data;
+//         var colString = "rgb(" + col[0] + "," + col[1] + ","+ col[2] + ")";
 
-        var node = colToNode[colString];
-        if(node) {
-            node.renderCol = node.__pickColor;
-            controls.lastClickedIndex = node.index;
-            console.log("Clicked on node with index:", node.index, node);  
-        }
-    });
+//         var node = colToNode[colString];
+//         if(node) {
+//             node.renderCol = node.__pickColor;
+//             controls.lastClickedIndex = node.index;
+//             console.log("Clicked on node with index:", node.index, node);  
+//         }
+//     });
 
-    // Generate the data and start the draw loop.
+//     // Generate the data and start the draw loop.
 
-    data = makeData(100); // Increase this number to get more boxes
-    function animate() {
-        draw(data, mainCanvas);
-        if(controls.animateHiddenCanvas){
-            draw(data, hiddenCanvas, true);  
-        }
-        update(data);
-        window.requestAnimationFrame(animate);
-    }
+//     data = makeData(100); // Increase this number to get more boxes
+//     function animate() {
+//         draw(data, mainCanvas);
+//         if(controls.animateHiddenCanvas){
+//             draw(data, hiddenCanvas, true);  
+//         }
+//         update(data);
+//         window.requestAnimationFrame(animate);
+//     }
 
-    window.requestAnimationFrame(animate);
+//     window.requestAnimationFrame(animate);
 
 
-}, false);
+// }, false);
+
+
+
+
+
+
 
 
 
@@ -238,19 +253,6 @@ window.addEventListener('load', function(){
 //     getNode(containerOuter, containerOuter * 2 / 5, .8, .9, 40, "#DD0095")
 // ];
 
-// var nextCol = 1;
-// function genColor(){
-//     var ret = [];
-//     if(nextCol < 16777215){
-//         ret.push(nextCol & 0xff); // R
-//         ret.push((nextCol & 0xff00) >> 8); // G 
-//         ret.push((nextCol & 0xff0000) >> 16); // B
-
-//         nextCol += 100; // This is exagerated for this example and would ordinarily be 1.
-//     }
-//     var col = "rgb(" + ret.join(',') + ")";
-//     return col;
-// }
 
 // //function that actually creates the drawing on the canvas
 // function draw(hidden) {
@@ -260,26 +262,7 @@ window.addEventListener('load', function(){
 //     //cycles through each of the nodes that were created so each one follows the same rules
 //     for (var i = 0; i < nodes.length; i++) {
         
-//         var node = nodes[i];
 
-//         if(node.renderCol) {
-//             // Render clicked nodes in the color of their corresponding node
-//             // on the hidden canvas.
-//             ctx.fillStyle = node.renderCol;
-//           } else {
-//             ctx.fillStyle = 'RGBA(105, 105, 105, 0.8)';
-//           }
-    
-//           if(hidden) {
-//             if(node.__pickColor === undefined) {
-//               // If we have never drawn the node to the hidden canvas get a new
-//               // color for it and put it in the dictionary.
-//               node.__pickColor = genColor();
-//               colToNode[node.__pickColor] = node;
-//             }
-//             // On the hidden canvas each rectangle gets a unique color.
-//             ctx.fillStyle = node.__pickColor;
-//           }
 
 //         //finds the current and previous node that we want to select
 //         var currNode = nodes[i];
@@ -338,30 +321,9 @@ window.addEventListener('load', function(){
 //     requestAnimationFrame(draw);
 // }
 
-// function hoverEffect(e) {
-
-//     draw(hiddenCanvas, true);
-//     var mouseX = e.layerX;
-//     var mouseY = e.layerY;
-
-//     // Get the corresponding pixel color on the hidden canvas
-//     // and look up the node in our map.
-//     var ctx = hiddenCanvas.getContext("2d");
-//     var col = ctx.getImageData(mouseX, mouseY, 1, 1).data;
-//     var colString = "rgb(" + col[0] + "," + col[1] + ","+ col[2] + ")";
-
-//     var node = colToNode[colString];
-//     if(node) {
-//       node.renderCol = node.__pickColor;
-//       controls.lastClickedIndex = node.index;
-//       lastClicked.updateDisplay();
-//       animateHidden.updateDisplay();
-//       console.log("Clicked on node with index:", node.index, node);  
-//     }
-// }
 
 // //adds an even listener for mouse movements
-// canvas.addEventListener('click', hoverEffect);
+// //canvas.addEventListener('click', hoverEffect);
 
 
 // //calls the function that runs the node particles
